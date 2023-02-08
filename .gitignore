@@ -1,0 +1,3 @@
+target/
+remote-cache/maven/v*
+.mvn/wrapper/*.jar
