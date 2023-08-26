@@ -3,7 +3,7 @@
 
 Starting with Maven 3.9.0, you can use the [maven-build-cache-extension](https://maven.apache.org/extensions/maven-build-cache-extension/) to store build caches both locally and remotely. However the documentation for setting up a remote cache server is [fairly vague](https://maven.apache.org/extensions/maven-build-cache-extension/remote-cache.html#setup-http-server-to-store-artifacts). 
 
-But, after looking at the [integration tests](https://github.com/apache/maven-build-cache-extension/blob/master/src/test/java/org/apache/maven/buildcache/its/RemoteCacheDavTest.java#L91-L114) of `maven-build-cache-extension`, I figured out how to set up a Docker-run NginX cache server.
+But, after looking at the [integration tests](https://github.com/apache/maven-build-cache-extension/blob/master/src/test/java/org/apache/maven/buildcache/its/RemoteCacheDavTest.java#L91-L114) of `maven-build-cache-extension`, I figured out how to set up a Docker-run NginX cache server. You can read more about it [here](https://fbricon.github.io/posts/setup-remote-build-cache-server/).
 
 The following instructions are for educational purposes, as remote cache servers seem mostly relevant for CI environments.
 
@@ -13,7 +13,7 @@ The following instructions are for educational purposes, as remote cache servers
 
 ## Getting started
 - After cloning this repository, open a terminal
-- execute [`./startRemoteCacheServer.sh`](./startRemoteCacheServer.sh) if you're Mac or Linux. You can look for the equivalent command for Windows. This will start a [WebDAV server on NGinX](https://hub.docker.com/r/xama/nginx-webdav), running in a Docker container. The username/password are `admin`/`admin`, the server working directory will be `./remote-cache`, under this project (already primed with the `maven` collection -i.e. subdirectory). See the [.mvn/maven-build-cache-config.xml](.mvn/maven-build-cache-config.xml) configuration. *You  absolutely need an existing collection in the cache volume, that matches the remote cache url.*
+- execute [`./startRemoteCacheServer.sh`](./startRemoteCacheServer.sh) if you're on Mac or Linux. You can look for the equivalent command for Windows. This will start a [WebDAV server on NGinX](https://hub.docker.com/r/xama/nginx-webdav), running in a Docker container. The username/password are `admin`/`admin`, the server working directory will be `./remote-cache`, under this project (already primed with the `maven` collection -i.e. subdirectory). See the [.mvn/maven-build-cache-config.xml](.mvn/maven-build-cache-config.xml) configuration. *You  absolutely need an existing collection in the cache volume, that matches the remote cache url.*
 
 - execute the `./mvnw verify --settings=settings.xml` command. The [settings.xml](settings.xml) file contains the credentials to the NGinX server, matching the server id in [.mvn/maven-build-cache-config.xml](.mvn/maven-build-cache-config.xml).
 
